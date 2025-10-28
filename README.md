@@ -23,16 +23,6 @@ O objetivo do app é aproximar tutores de animais e clínicas veterinárias, ofe
 
 Prototipagem: Figma
 
-Frontend (em desenvolvimento): React Native / Expo
-
-Backend (planejado): Node.js + Express
-
-Banco de dados: Firebase / MongoDB
-
-Mapas: Google Maps API
-
-Autenticação: Firebase Auth (Google, Facebook e e-mail)
-
 🎯 Objetivo do Projeto
 
 Criar uma plataforma moderna, intuitiva e acessível que conecte pessoas, pets e profissionais, promovendo o bem-estar animal através da tecnologia.
@@ -44,11 +34,17 @@ Criar uma plataforma moderna, intuitiva e acessível que conecte pessoas, pets e
 
 👨‍💻 Autores
 Allan Victor Morais de Lima
+
 Paulo Ricardo da Silva
+
 Gabriel Henrique da Silva
+
 Pedro Francisco Alves Neto
 
 Professor: Marcos
+
 Disciplina: Front-End Frameworks
+
 Curso: Análise e Desenvolvimento de Sistemas
+
 Instituição: UNINASSAU Caruaru – Turma B (Noite / Presencial)
