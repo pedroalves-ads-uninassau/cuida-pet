@@ -1,83 +1,114 @@
-import React from "react";
-import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
+import React, { useEffect, useRef } from 'react';
+import { 
+  View, 
+  Text, 
+  Image, 
+  StyleSheet, 
+  Animated, 
+  TouchableOpacity 
+} from 'react-native';
+import { LinearGradient } from 'expo-linear-gradient';
+import { useNavigation } from '@react-navigation/native';
 
 export default function HomeScreen() {
+  const fadeAnim = useRef(new Animated.Value(0)).current;
+  const slideAnim = useRef(new Animated.Value(40)).current;
+  const navigation = useNavigation();
+
+  useEffect(() => {
+    Animated.parallel([
+      Animated.timing(fadeAnim, {
+        toValue: 1,
+        duration: 1200,
+        useNativeDriver: true,
+      }),
+      Animated.timing(slideAnim, {
+        toValue: 0,
+        duration: 1000,
+        useNativeDriver: true,
+      })
+    ]).start();
+  }, []);
+
   return (
-    <View style={styles.container}>
-      {/* Links de topo */}
+    <LinearGradient
+      colors={['#FFB347', '#FF8008']}
+      style={styles.container}
+    >
       <View style={styles.topLinks}>
         <Text style={styles.link}>privacidade</Text>
         <Text style={styles.link}>ajuda</Text>
       </View>
 
-      {/* Logo central */}
-      <View style={styles.logoContainer}>
-        <Image
-          source={require("../../assets/images/logo-cuida-pet.png")} // coloque o caminho da sua logo aqui
+      <Animated.View 
+        style={[
+          styles.content, 
+          { opacity: fadeAnim, transform: [{ translateY: slideAnim }] }
+        ]}
+      >
+        <Image 
+          source={require('../../assets/images/logo-cuida-pet.png')}
           style={styles.logo}
           resizeMode="contain"
         />
-      </View>
+        <Text style={styles.subtitle}>
+          Conectando pessoas e pets com amor e tecnologia!!
+        </Text>
+      </Animated.View>
 
-      {/* Texto principal */}
-      <Text style={styles.title}>
-        Conectando pessoas e pets com amor e tecnologia!!
-      </Text>
-
-      {/* Botão */}
-      <TouchableOpacity style={styles.button}>
+      <TouchableOpacity 
+        style={styles.button}
+        onPress={() => navigation.navigate('LoginCadastro')}
+      >
         <Text style={styles.buttonText}>Avançar</Text>
       </TouchableOpacity>
-    </View>
+    </LinearGradient>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#F57C00",
-    alignItems: "center",
-    justifyContent: "center",
-    paddingHorizontal: 20,
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingVertical: 80,
   },
   topLinks: {
-    position: "absolute",
-    top: 50,
-    right: 20,
-    flexDirection: "row",
-    gap: 10,
+    width: '90%',
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
   },
   link: {
-    color: "#fff",
-    fontSize: 14,
-    fontWeight: "500",
+    color: '#fff',
+    marginLeft: 15,
+    fontSize: 12,
+    fontWeight: '500',
   },
-  logoContainer: {
-    marginBottom: 30,
-    alignItems: "center",
+  content: {
+    alignItems: 'center',
   },
   logo: {
-    width: 160,
-    height: 160,
-    borderRadius: 80,
-    backgroundColor: "#fff",
+    width: 150,
+    height: 150,
+    marginBottom: 25,
   },
-  title: {
+  subtitle: {
     fontSize: 18,
-    color: "#fff",
-    textAlign: "center",
-    fontWeight: "600",
-    marginBottom: 60,
+    textAlign: 'center',
+    color: '#fff',
+    fontWeight: '600',
+    paddingHorizontal: 25,
   },
   button: {
-    backgroundColor: "#fff",
+    backgroundColor: '#fff',
     paddingVertical: 10,
-    paddingHorizontal: 50,
+    paddingHorizontal: 40,
     borderRadius: 25,
+    elevation: 3,
   },
   buttonText: {
-    color: "#F57C00",
-    fontWeight: "bold",
+    color: '#FF8008',
+    fontWeight: 'bold',
     fontSize: 16,
   },
 });
