@@ -3,7 +3,7 @@ O Cuida Pet é um aplicativo mobile desenvolvido como projeto da disciplina Marc
 
 Cuida Pet – Conectando pessoas e pets com amor e tecnologia. ❤️📱
 
-🎯 Sobre o Projeto
+# Sobre o Projeto
 
 O Cuida Pet tem como objetivo aproximar tutores de animais e clínicas veterinárias, oferecendo um ambiente interativo que une cuidado, agendamento e compartilhamento de experiências — inspirado na usabilidade de redes sociais como o Instagram.
 
@@ -21,7 +21,7 @@ O Cuida Pet tem como objetivo aproximar tutores de animais e clínicas veteriná
 
 ⚙️ Configurações: preferências do usuário, perfil e histórico de atendimentos.
 
-🧩 Tecnologias e Ferramentas
+# Tecnologias e Ferramentas
 
 Prototipagem: Figma
 
@@ -31,7 +31,7 @@ Linguagem: JavaScript / TypeScript
 
 Gerenciamento de dependências: npm
 
-📱 Status do Projeto
+#  Status do Projeto
 
 🔹 Etapa Concluída: Prototipagem e estruturação do design no Figma
 
@@ -39,33 +39,36 @@ Gerenciamento de dependências: npm
 
 🔹 Próxima fase: Implementação e integração das funcionalidades principais
 
-💻 Como Executar o Projeto
+# Como Executar o Projeto #
 
 Clone o repositório e execute o app localmente com o Expo:
 
 # Clone o repositório no vscode
+- Clone o repositório
 git clone https://github.com/usuario/aplicativo_mobile-cuida-pet.git
 
-# Acesse a pasta do projeto
-cd aplicativo_mobile-cuida-pet
 
-# Instale as dependencias
+
+- Acesse a pasta do projeto
+cd aplicativo_mobile-cuida_pet
+
+-colocar o comando: 
 npm install
 
-# Inicie o projeto
+- Inicie o projeto
 npx expo start
 
-
-Após isso, o Expo exibirá o link para execução:
+- Após isso, o Expo exibirá o link para execução:
 🌐 Web: http://localhost:8081
 
-👨‍💻 Autores
-Nome	Função
-Allan Victor Morais de Lima	Desenvolvedor
-Paulo Ricardo da Silva	Desenvolvedor
-Gabriel Henrique da Silva	Desenvolvedor
-Pedro Francisco Alves Neto	Desenvolvedor
-📚 Informações Acadêmicas
+# Autores
+
+- Allan Victor Morais de Lima
+- Paulo Ricardo da Silva
+- Gabriel Henrique da Silva
+- Pedro Francisco Alves Neto
+
+# Informações Acadêmicas
 
 Professor: Marcos
 
@@ -75,6 +78,6 @@ Curso: Análise e Desenvolvimento de Sistemas
 
 Instituição: UNINASSAU Caruaru – Turma B (Noite / Presencial)
 
-💡 Objetivo Final
+# Objetivo Final
 
 Criar uma plataforma moderna, intuitiva e acessível que conecte pessoas, pets e profissionais, promovendo o bem-estar animal através da tecnologia.
