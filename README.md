@@ -47,10 +47,8 @@ Clone o repositório e execute o app localmente com o Expo:
 - Clone o repositório
 git clone https://github.com/usuario/aplicativo_mobile-cuida-pet.git
 
-
-
-- Acesse a pasta do projeto
-cd aplicativo_mobile-cuida_pet
+# Acesse a pasta do projeto
+cd aplicativo_mobile-cuida-pet
 
 -colocar o comando: 
 npm install
