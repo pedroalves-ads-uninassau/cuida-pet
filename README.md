@@ -43,11 +43,14 @@ Gerenciamento de dependências: npm
 
 Clone o repositório e execute o app localmente com o Expo:
 
-# Clone o repositório
+# Clone o repositório no vscode
 git clone https://github.com/usuario/aplicativo_mobile-cuida-pet.git
 
 # Acesse a pasta do projeto
 cd aplicativo_mobile-cuida-pet
+
+# Instale as dependencias
+npm install
 
 # Inicie o projeto
 npx expo start
