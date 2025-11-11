@@ -1,81 +1,78 @@
-# cuida-pet
-O Cuida Pet é um aplicativo mobile desenvolvido como projeto da disciplina Marcos de Front-End Frameworks, do curso de Análise e Desenvolvimento de Sistemas da UNINASSAU Caruaru – Turma B (Noite / Presencial).
+# Cuida Pet
+
+O Cuida Pet é um aplicativo web desenvolvido como projeto da disciplina Front-End Frameworks, do curso de Análise e Desenvolvimento de Sistemas – UNINASSAU Caruaru (Turma B / Noite / Presencial).
 
 Cuida Pet – Conectando pessoas e pets com amor e tecnologia. ❤️📱
 
-# Sobre o Projeto
+# 🐶 Sobre o Projeto
 
 O Cuida Pet tem como objetivo aproximar tutores de animais e clínicas veterinárias, oferecendo um ambiente interativo que une cuidado, agendamento e compartilhamento de experiências — inspirado na usabilidade de redes sociais como o Instagram.
 
-🚀 Funcionalidades Principais
+# 🚀 Funcionalidades Principais
 
-📸 Feed social: postagens com fotos, curtidas e comentários.
+📸 Feed social – postagens com fotos, curtidas e comentários
 
-🏥 Perfis diferenciados: opções para tutores e clínicas veterinárias.
+🏥 Perfis diferenciados – tutores e clínicas veterinárias
 
-📍 Mapa interativo: exibe clínicas e petshops próximos, com filtros.
+📍 Mapa interativo – exibe clínicas e petshops próximos
 
-💬 Chat e agendamento: comunicação direta com clínicas e marcação de consultas.
+💬 Chat e agendamento – comunicação direta com clínicas
 
-🐶 Cadastro de pets: informações básicas, histórico e estado de saúde.
+🐕 Cadastro de pets – dados, histórico e saúde
 
-⚙️ Configurações: preferências do usuário, perfil e histórico de atendimentos.
+⚙️ Configurações – perfil e preferências do usuário
 
-# Tecnologias e Ferramentas
+# 🧰 Tecnologias e Ferramentas
+Área	Tecnologia
+Framework	Next.js 15 (React 19)
+Linguagem	TypeScript / JavaScript (ESNext)
+Estilos	Tailwind CSS
+Autenticação	Firebase Auth / JWT (planejado)
+Banco de Dados	Firebase / Supabase (planejado)
+Design	Figma
+Versionamento	Git + GitHub
 
-Prototipagem: Figma
+# 🧑‍💻 Como Executar o Projeto
+- 1️⃣ Clone o repositório
+git clone https://github.com/pedroalves-ads-uninassau/cuida-pet.git
 
-Framework: React Native com Expo
+- 2️⃣ Acesse o diretório do projeto
+cd aplicativo_mobile-cuida_pet/cuida-pet
 
-Linguagem: JavaScript / TypeScript
-
-Gerenciamento de dependências: npm
-
-#  Status do Projeto
-
-🔹 Etapa Concluída: Prototipagem e estruturação do design no Figma
-
-🔹 Etapa Atual: Criação das dependências básicas e MVP inicial
-
-🔹 Próxima fase: Implementação e integração das funcionalidades principais
-
-# Como Executar o Projeto #
-
-Clone o repositório e execute o app localmente com o Expo:
-
-# Clone o repositório no vscode
-- Clone o repositório
-git clone https://github.com/usuario/aplicativo_mobile-cuida-pet.git
-
-# Acesse a pasta do projeto
-cd aplicativo_mobile-cuida-pet
-
--colocar o comando: 
+- 3️⃣ Instale as dependências
 npm install
 
-- Inicie o projeto
-npx expo start
+- 4️⃣ Execute o servidor de desenvolvimento
+npm run dev
 
-- Após isso, o Expo exibirá o link para execução:
-🌐 Web: http://localhost:8081
 
-# Autores
+🌐 O app será aberto em:
+👉 http://localhost:3000
 
-- Allan Victor Morais de Lima
-- Paulo Ricardo da Silva
-- Gabriel Henrique da Silva
-- Pedro Francisco Alves Neto
+# 📅 Status do Projeto
 
-# Informações Acadêmicas
+✅ Prototipagem concluída (Figma)
 
-Professor: Marcos
+⚙️ Estrutura Next.js criada
 
+🚧 Implementação das telas e rotas em andamento
+
+🔜 Integração com backend e banco de dados
+
+# 🧑‍🎓 Autores
+
+Allan Victor Morais de Lima
+
+Paulo Ricardo da Silva
+
+Gabriel Henrique da Silva
+
+Pedro Francisco Alves Neto
+
+Professor: Marcos Paulo
 Disciplina: Front-End Frameworks
+Instituição: UNINASSAU Caruaru
 
-Curso: Análise e Desenvolvimento de Sistemas
-
-Instituição: UNINASSAU Caruaru – Turma B (Noite / Presencial)
-
-# Objetivo Final
+# 🎯 Objetivo Final
 
 Criar uma plataforma moderna, intuitiva e acessível que conecte pessoas, pets e profissionais, promovendo o bem-estar animal através da tecnologia.
