@@ -1,6 +1,9 @@
 "use client";
-import PageTransition from "@/components/PageTransition";
 
-export default function ClientLayout({ children }: { children: React.ReactNode }) {
-  return <PageTransition>{children}</PageTransition>;
+import { ReactNode } from "react";
+
+export default function ClientLayout({ children }: { children: ReactNode }) {
+  return (
+    <div className="min-h-screen flex flex-col">{children}</div>
+  );
 }

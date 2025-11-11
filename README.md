@@ -40,23 +40,16 @@ O **Cuida Pet** tem como objetivo aproximar **tutores de animais** e **clínicas
 ## 🧑‍💻 Como Executar o Projeto
 
 1️⃣ **Clone o repositório**
-```bash
 git clone https://github.com/pedroalves-ads-uninassau/cuida-pet.git
-2️⃣ Acesse o diretório
 
-bash
-Copiar código
-cd aplicativo_mobile-cuida_pet/cuida-pet
-3️⃣ Instale as dependências
+2️⃣ Instale as dependências
 
-bash
-Copiar código
 npm install
-4️⃣ Execute o servidor de desenvolvimento
 
-bash
-Copiar código
+3️⃣ Execute o servidor de desenvolvimento
+
 npm run dev
+
 🌐 O app será aberto em:
 👉 http://localhost:3000
 

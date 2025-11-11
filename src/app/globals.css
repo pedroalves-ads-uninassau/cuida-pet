@@ -2,17 +2,16 @@
 @tailwind components;
 @tailwind utilities;
 
+html,
 body {
-  font-family: 'Inter', sans-serif;
-}
-@keyframes fade-in {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
+  @apply min-h-screen m-0 p-0;
 }
 
-.animate-fade-in {
-  animation: fade-in 1s ease-in-out forwards;
+body {
+  @apply flex items-center justify-center bg-gradient-to-br from-orange-400 to-orange-600 text-white;
+  font-family: 'Poppins', sans-serif;
 }
+
 @keyframes fade-in {
   from {
     opacity: 0;
@@ -26,4 +25,26 @@ body {
 
 .animate-fade-in {
   animation: fade-in 1s ease-in-out forwards;
+}
+
+@keyframes bounce-in {
+  0% {
+    transform: scale(0.95);
+    opacity: 0;
+  }
+  60% {
+    transform: scale(1.05);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.animate-bounce-in {
+  animation: bounce-in 0.8s ease-out;
+}
+
+.text-shadow {
+  text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.25);
 }
