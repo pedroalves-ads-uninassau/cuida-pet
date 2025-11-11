@@ -6,34 +6,36 @@ export default function Home() {
   const router = useRouter();
 
   return (
-    <main className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-b from-orange-400 to-orange-600 text-white">
-      <div className="absolute top-5 right-5 flex gap-4 text-sm">
-        <span className="cursor-pointer hover:underline">privacidade</span>
-        <span className="cursor-pointer hover:underline">ajuda</span>
+    <main className="flex flex-col justify-between items-center min-h-screen bg-gradient-to-b from-[#FFB347] to-[#FF8008] text-white px-6 py-12">
+      <div className="flex justify-end w-full max-w-5xl text-sm font-medium gap-6">
+        <button className="hover:underline">Privacidade</button>
+        <button className="hover:underline">Ajuda</button>
       </div>
 
-      {/* LOGO */}
-      <Image
-        src="/images/logo-cuida-pet.png"
-        alt="Logo Cuida Pet"
-        width={160}
-        height={160}
-        className="mb-6"
-      />
+      <div className="flex flex-col items-center justify-center flex-grow text-center space-y-8">
+        <Image
+          src="/images/logo-cuida-pet.png"
+          alt="Logo Cuida Pet"
+          width={180}
+          height={180}
+          priority
+        />
 
-      <h1 className="text-center text-2xl font-bold mb-8">
-        Bem-vindo(a){"\n"}ao CUIDA PET
-      </h1>
+        <h1 className="text-3xl font-bold leading-snug drop-shadow-md">
+          Bem-vindo(a) ao Cuida Pet!
+        </h1>
 
-      {/* BOTÃO AVANÇAR */}
-      <button
-        onClick={() => router.push("/login-cadastro")}
-        className="bg-white text-orange-600 font-semibold px-8 py-3 rounded-full shadow-md hover:bg-orange-100 transition"
-      >
-        Avançar
-      </button>
+        <button
+          onClick={() => router.push("/login-cadastro")}
+          className="mt-6 bg-white text-[#FF8008] font-bold text-lg px-10 py-3 rounded-full shadow-lg hover:bg-orange-50 transition-all"
+        >
+          Avançar
+        </button>
+      </div>
 
-      <p className="mt-12 text-sm opacity-80">Versão: 0.0.1 (Beta)</p>
+      <footer className="text-sm opacity-80">
+        <p>Versão 0.0.1 (Beta)</p>
+      </footer>
     </main>
   );
 }

@@ -1,20 +1,19 @@
-import type { Metadata } from "next";
 import "./globals.css";
+import { Poppins } from "next/font/google";
+import ClientLayout from "@/components/ClientLayout";
 
-export const metadata: Metadata = {
+const poppins = Poppins({ subsets: ["latin"], weight: ["400", "600", "700"] });
+
+export const metadata = {
   title: "Cuida Pet",
-  description: "Cuida Pet — Seu app de cuidado animal.",
+  description: "Conectando pessoas e pets com amor e tecnologia",
 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="pt-BR">
-      <body className="bg-gradient-to-b from-orange-400 to-orange-600 text-white min-h-screen flex flex-col items-center justify-center">
-        {children}
+      <body className={poppins.className}>
+        <ClientLayout>{children}</ClientLayout>
       </body>
     </html>
   );
