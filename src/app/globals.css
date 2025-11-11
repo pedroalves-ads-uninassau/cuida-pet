@@ -1,99 +1,124 @@
+@import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* === Estilos Globais Modernos === */
+/* ------------------------------
+   🎨 Cuida Pet WebApp - Global
+--------------------------------*/
 
 :root {
-  --color-primary: #ea580c; /* Laranja principal */
-  --color-secondary: #fb923c; /* Laranja claro */
-  --color-bg: #fff7ed; /* Fundo quente */
-  --color-text: #1f2937; /* Cinza escuro */
-  --color-muted: #6b7280;
-  --radius: 1rem;
+  /* 🧡 Cores Primárias */
+  --primary: #FFA333;
+  --primary-dark: #E27B00;
+  --primary-light: #FFE5C1;
+
+  /* ⚫ Neutros */
+  --black: #1E1E1E;
+  --gray-dark: #3C3C3C;
+  --gray-light: #EAEAEA;
+  --white: #FFFFFF;
+
+  /* 💙 Secundárias */
+  --blue: #4A90E2;
+  --green: #6BCB77;
+  --red: #E85A5A;
+  --purple: #8E6CEF;
+
+  /* 🌈 Gradientes */
+  --gradient-orange: linear-gradient(90deg, #FFA333 0%, #E27B00 100%);
+  --gradient-soft: linear-gradient(120deg, #FFA333 0%, #FFE5C1 100%);
 }
+
+/* ------------------------------
+   🧠 Reset e Tipografia Global
+--------------------------------*/
 
 html,
 body {
+  font-family: 'Baloo 2', sans-serif;
+  color: var(--black);
+  background-color: var(--white);
+  scroll-behavior: smooth;
   margin: 0;
   padding: 0;
-  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-  background-color: var(--color-bg);
-  color: var(--color-text);
-  scroll-behavior: smooth;
 }
 
-h1, h2, h3, h4, h5 {
-  font-weight: 800;
-  letter-spacing: -0.5px;
+h1, h2, h3, h4, h5, h6 {
+  color: var(--black);
+  font-weight: 700;
 }
 
 p {
-  line-height: 1.7;
+  color: var(--gray-dark);
+  line-height: 1.6;
 }
 
-/* Suaviza transições */
-* {
-  transition: all 0.3s ease-in-out;
-}
-
-/* Links */
 a {
+  color: var(--primary-dark);
   text-decoration: none;
-  color: inherit;
+  transition: color 0.2s ease;
 }
 
-/* Botões */
-button {
-  cursor: pointer;
-  border: none;
-  outline: none;
+a:hover {
+  color: var(--primary);
 }
 
-/* Animações globais */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+/* ------------------------------
+   🧱 Elementos Reutilizáveis
+--------------------------------*/
+
+.btn-primary {
+  @apply px-6 py-3 rounded-full text-white font-semibold transition-transform duration-300;
+  background: var(--gradient-orange);
+  box-shadow: 0 4px 14px rgba(226, 123, 0, 0.25);
 }
 
-.fade-in {
-  animation: fadeIn 0.6s ease forwards;
+.btn-primary:hover {
+  transform: scale(1.05);
+  background: var(--gradient-soft);
 }
 
-/* Scrollbar moderna */
-::-webkit-scrollbar {
-  width: 10px;
-}
-::-webkit-scrollbar-track {
-  background: #fff0e0;
-}
-::-webkit-scrollbar-thumb {
-  background-color: var(--color-primary);
-  border-radius: 10px;
-  border: 2px solid #fff0e0;
-}
-
-/* Imagens */
-img, .next-image {
-  border-radius: var(--radius);
-  object-fit: cover;
-}
-
-/* Cards */
 .card {
-  background: white;
-  border-radius: var(--radius);
-  box-shadow: 0 10px 20px rgba(0,0,0,0.05);
-  padding: 1.5rem;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  @apply rounded-2xl shadow-md p-6 transition duration-300;
+  background-color: var(--primary-light);
+  border: 1px solid var(--gray-light);
 }
+
 .card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+  transform: translateY(-2px);
+}
+
+/* ------------------------------
+   ✨ Layout e Responsividade
+--------------------------------*/
+
+section {
+  padding: 4rem 1.5rem;
+}
+
+@media (min-width: 768px) {
+  section {
+    padding: 6rem 3rem;
+  }
+}
+
+header {
+  backdrop-filter: blur(10px);
+  background-color: rgba(255, 255, 255, 0.9);
+}
+
+footer {
+  background-color: #1E1E1E;
+  color: white;
+}
+
+footer a {
+  color: #FFA333;
+}
+
+footer a:hover {
+  color: #FFD8A0;
 }

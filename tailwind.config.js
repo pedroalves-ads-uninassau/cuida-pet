@@ -1,28 +1,25 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
-    "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
-    "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
-    "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/app/**/*.{js,ts,jsx,tsx}",
+    "./src/components/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
     extend: {
       colors: {
-        orange: {
-          50: "#fff7ed",
-          100: "#ffedd5",
-          200: "#fed7aa",
-          300: "#fdba74",
-          400: "#fb923c",
-          500: "#f97316",
-          600: "#ea580c",
-          700: "#c2410c",
-          800: "#9a3412",
-          900: "#7c2d12",
-        },
+        primary: "#FFA333",
+        "primary-dark": "#E27B00",
+        "primary-light": "#FFE5C1",
+        blue: "#4A90E2",
+        green: "#6BCB77",
+        red: "#E85A5A",
+        purple: "#8E6CEF",
+        black: "#1E1E1E",
+        "gray-dark": "#3C3C3C",
+        "gray-light": "#EAEAEA",
       },
       fontFamily: {
-        inter: ["Inter", "sans-serif"],
+        baloo: ["Baloo 2", "sans-serif"],
       },
     },
   },
