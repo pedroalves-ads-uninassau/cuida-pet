@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;700&display=swap');
+
 
 @tailwind base;
 @tailwind components;
@@ -63,32 +63,6 @@ a {
 
 a:hover {
   color: var(--primary);
-}
-
-/* ------------------------------
-   🧱 Elementos Reutilizáveis
---------------------------------*/
-
-.btn-primary {
-  @apply px-6 py-3 rounded-full text-white font-semibold transition-transform duration-300;
-  background: var(--gradient-orange);
-  box-shadow: 0 4px 14px rgba(226, 123, 0, 0.25);
-}
-
-.btn-primary:hover {
-  transform: scale(1.05);
-  background: var(--gradient-soft);
-}
-
-.card {
-  @apply rounded-2xl shadow-md p-6 transition duration-300;
-  background-color: var(--primary-light);
-  border: 1px solid var(--gray-light);
-}
-
-.card:hover {
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
-  transform: translateY(-2px);
 }
 
 /* ------------------------------
