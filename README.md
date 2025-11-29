@@ -95,7 +95,6 @@ Criar uma aplicação mobile que conecte tutores e clínicas veterinárias, perm
 ## 🧑‍🎓 Equipe
 
 - Allan Victor Morais de Lima
-- Paulo Ricardo da Silva
 - Gabriel Henrique da Silva
 - Pedro Francisco Alves Neto
 
