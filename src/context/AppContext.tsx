@@ -120,7 +120,8 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
                                 extraData = {
                                     address: data.address,
                                     phone: data.phone,
-                                    cnpj: data.cnpj
+                                    cnpj: data.cnpj,
+                                    avatar: data.avatar // Get avatar from Firestore
                                 };
                             }
                         } catch (error) {
@@ -133,7 +134,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
                     setUser({
                         name: firebaseUser.displayName || 'Usuário',
                         email: firebaseUser.email || '',
-                        avatar: firebaseUser.photoURL || '/images/avatar-placeholder.svg',
+                        avatar: extraData.avatar || firebaseUser.photoURL || '/images/avatar-placeholder.svg', // Prefer Firestore avatar
                         uid: firebaseUser.uid,
                         role: role,
                         ...extraData

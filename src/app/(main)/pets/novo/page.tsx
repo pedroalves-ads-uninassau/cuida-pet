@@ -15,16 +15,33 @@ export default function AddPetPage() {
         age: '',
         type: 'Cachorro'
     });
+    const [imageFile, setImageFile] = useState<File | null>(null);
+    const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+
+    const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (file) {
+            setImageFile(file);
+            setPreviewUrl(URL.createObjectURL(file));
+        }
+    };
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setLoading(true);
         try {
+            let imageUrl = '/images/pet-placeholder.svg';
+
+            if (imageFile) {
+                const { compressImage } = await import('@/utils/imageCompression');
+                imageUrl = await compressImage(imageFile);
+            }
+
             await addPet({
                 name: formData.name,
                 breed: formData.breed,
                 age: formData.age,
-                imageUrl: '/images/pet-placeholder.svg' // Placeholder for now until we have storage
+                imageUrl
             });
             router.push('/perfil/tutor');
         } catch (error) {
@@ -46,12 +63,29 @@ export default function AddPetPage() {
 
             <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
                 <form onSubmit={handleSubmit} className="space-y-6">
-                    {/* Photo Upload Placeholder */}
-                    <div className="flex justify-center">
-                        <div className="w-32 h-32 bg-gray-50 rounded-full border-2 border-dashed border-gray-300 flex flex-col items-center justify-center text-gray-400 cursor-pointer hover:bg-gray-100 transition">
-                            <PhotoIcon className="h-8 w-8 mb-1" />
-                            <span className="text-xs font-medium">Adicionar Foto</span>
+                    {/* Photo Upload */}
+                    <div className="flex flex-col items-center">
+                        <div className="relative w-32 h-32 mb-4 group cursor-pointer">
+                            <div className="w-full h-full rounded-full overflow-hidden border-4 border-white shadow-lg bg-gray-100 relative">
+                                {previewUrl ? (
+                                    <img src={previewUrl} alt="Preview" className="w-full h-full object-cover" />
+                                ) : (
+                                    <div className="w-full h-full flex items-center justify-center text-gray-400">
+                                        <PhotoIcon className="h-12 w-12" />
+                                    </div>
+                                )}
+                                <div className="absolute inset-0 bg-black/30 flex items-center justify-center opacity-0 group-hover:opacity-100 transition duration-300">
+                                    <PhotoIcon className="h-8 w-8 text-white" />
+                                </div>
+                            </div>
+                            <input
+                                type="file"
+                                accept="image/*"
+                                onChange={handleImageChange}
+                                className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                            />
                         </div>
+                        <p className="text-sm text-gray-500">Toque para adicionar uma foto</p>
                     </div>
 
                     <div>

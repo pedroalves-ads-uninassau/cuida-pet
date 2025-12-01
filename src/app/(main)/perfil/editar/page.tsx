@@ -52,30 +52,33 @@ export default function EditarPerfilPage() {
             const { auth, db } = await import("@/services/firebase");
 
             if (db && auth && auth.currentUser) {
-                // Update Firestore
+                // 1. Update Firestore (Primary Source of Truth)
                 await updateDoc(doc(db, "users", user.uid), {
                     name,
                     email,
                     address,
                     phone,
                     cnpj,
-                    // If avatarPreview changed (is base64), save it. Otherwise keep existing.
-                    avatar: avatarPreview
+                    avatar: avatarPreview // Save Base64 to Firestore
                 });
 
-                // Update Auth Profile (DisplayName and PhotoURL)
-                await updateProfile(auth.currentUser, {
-                    displayName: name,
-                    photoURL: avatarPreview
-                });
+                // 2. Try to update Auth Profile (Secondary/Fallback)
+                // This might fail if Base64 is too long, but that's okay now.
+                try {
+                    await updateProfile(auth.currentUser, {
+                        displayName: name,
+                        photoURL: avatarPreview
+                    });
+                } catch (authError) {
+                    console.warn("Auth profile update failed (likely due to image size), but Firestore was updated:", authError);
+                }
 
                 alert("Perfil atualizado com sucesso!");
-                // Force reload to update context
                 window.location.href = '/perfil/tutor';
             }
         } catch (error) {
             console.error("Error updating profile:", error);
-            alert("Erro ao atualizar perfil.");
+            alert("Erro ao atualizar perfil. Tente novamente.");
         }
     };
 

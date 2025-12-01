@@ -11,6 +11,8 @@ import {
 } from '@heroicons/react/24/outline';
 import { useState } from 'react';
 import { useApp } from '@/context/AppContext';
+import { collection, getDocs, query, orderBy, doc, updateDoc, increment, addDoc, deleteDoc } from 'firebase/firestore';
+import { db } from '@/services/firebase';
 import { Menu, Transition } from '@headlessui/react';
 import { Fragment } from 'react';
 
@@ -33,6 +35,8 @@ export function PostCard({ post }: { post: Post }) {
   const { user, deletePost, editPost, likePost, addComment } = useApp();
   const [isEditing, setIsEditing] = useState(false);
   const [editContent, setEditContent] = useState(post.content);
+  const [showComments, setShowComments] = useState(false);
+  const [commentsList, setCommentsList] = useState<any[]>([]);
 
   const isAuthor = user?.uid === post.author.uid;
 
@@ -41,6 +45,22 @@ export function PostCard({ post }: { post: Post }) {
       await editPost(post.id, editContent);
     }
     setIsEditing(false);
+  };
+
+  const toggleComments = async () => {
+    if (!showComments) {
+      try {
+        if (db) {
+          const q = query(collection(db, "posts", post.id, "comments"), orderBy("createdAt", "asc"));
+          const snapshot = await getDocs(q);
+          const loadedComments = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+          setCommentsList(loadedComments);
+        }
+      } catch (error) {
+        console.error("Error fetching comments:", error);
+      }
+    }
+    setShowComments(!showComments);
   };
 
   return (
@@ -157,20 +177,45 @@ export function PostCard({ post }: { post: Post }) {
             <HeartIcon className="h-5 w-5 group-hover:scale-110 transition-transform" />
             <span className="text-sm font-medium">{post.likes}</span>
           </button>
-          <button
-            onClick={() => {
-              const text = prompt("Escreva seu comentário:");
-              if (text) addComment(post.id, text);
-            }}
-            className="flex items-center gap-2 text-gray-500 hover:text-primary transition group"
-          >
-            <ChatBubbleLeftIcon className="h-5 w-5 group-hover:scale-110 transition-transform" />
-            <span className="text-sm font-medium">{post.comments}</span>
-          </button>
-          <button className="flex items-center gap-2 text-gray-500 hover:text-primary transition group ml-auto">
-            <ShareIcon className="h-5 w-5 group-hover:scale-110 transition-transform" />
-          </button>
+
+          <div className="flex gap-4">
+            <button
+              onClick={() => {
+                const text = prompt("Escreva seu comentário:");
+                if (text) addComment(post.id, text);
+              }}
+              className="flex items-center gap-2 text-gray-500 hover:text-primary transition group"
+            >
+              <ChatBubbleLeftIcon className="h-5 w-5 group-hover:scale-110 transition-transform" />
+              <span className="text-sm font-medium">Comentar</span>
+            </button>
+
+            <button
+              onClick={toggleComments}
+              className="text-sm text-gray-500 hover:text-primary hover:underline"
+            >
+              Ver comentários ({post.comments || 0})
+            </button>
+          </div>
+
+
         </div>
+
+        {/* Comments Section */}
+        {showComments && (
+          <div className="mt-4 pt-4 border-t border-gray-50 space-y-3 bg-gray-50/50 p-3 rounded-xl">
+            {commentsList.length > 0 ? (
+              commentsList.map((comment) => (
+                <div key={comment.id} className="text-sm">
+                  <span className="font-bold text-gray-900">{comment.authorName}: </span>
+                  <span className="text-gray-700">{comment.text}</span>
+                </div>
+              ))
+            ) : (
+              <p className="text-xs text-gray-500 text-center">Nenhum comentário ainda.</p>
+            )}
+          </div>
+        )}
       </div>
     </div>
   );

@@ -14,9 +14,8 @@ export default function ProfilePage() {
     <div className="max-w-3xl mx-auto pb-20">
       {/* Profile Header */}
       <div className="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden mb-6">
-        <div className="h-32 bg-gradient-to-r from-primary to-primary-dark"></div>
-        <div className="px-6 pb-6">
-          <div className="relative flex justify-between items-end -mt-12 mb-4">
+        <div className="p-6">
+          <div className="relative flex justify-between items-center mb-4">
             <div className="relative w-24 h-24 rounded-full border-4 border-white shadow-md bg-white">
               <Image
                 src={user?.avatar || "/images/avatar-placeholder.svg"}

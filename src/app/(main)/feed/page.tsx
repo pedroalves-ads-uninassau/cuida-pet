@@ -113,7 +113,7 @@ export default function FeedPage() {
                       className="text-gray-400 hover:text-primary transition-colors flex items-center gap-2 text-sm font-medium"
                     >
                       <PhotoIcon className="h-6 w-6" />
-                      Foto/Vídeo
+                      Foto
                     </button>
                     <button
                       type="submit"

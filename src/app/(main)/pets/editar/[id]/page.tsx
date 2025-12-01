@@ -6,7 +6,6 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowLeftIcon, PhotoIcon } from '@heroicons/react/24/outline';
 import { useApp } from '@/context/AppContext';
-import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 export default function EditPetPage() {
     const router = useRouter();
@@ -43,10 +42,11 @@ export default function EditPetPage() {
         }
     }, [pets, params.id, router]);
 
-    const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
         if (file) {
             setImageFile(file);
+            // Create immediate preview
             setPreviewUrl(URL.createObjectURL(file));
         }
     };
@@ -58,12 +58,10 @@ export default function EditPetPage() {
         try {
             let imageUrl = formData.imageUrl;
 
-            // Upload new image if selected
+            // Compress and convert to Base64 if new image selected
             if (imageFile) {
-                const storage = getStorage();
-                const storageRef = ref(storage, `pets/${Date.now()}_${imageFile.name}`);
-                await uploadBytes(storageRef, imageFile);
-                imageUrl = await getDownloadURL(storageRef);
+                const { compressImage } = await import('@/utils/imageCompression');
+                imageUrl = await compressImage(imageFile);
             }
 
             await editPet(params.id as string, {
@@ -73,7 +71,7 @@ export default function EditPetPage() {
                 imageUrl
             });
 
-            router.push('/perfil');
+            router.push('/perfil/tutor');
         } catch (error) {
             console.error("Error updating pet:", error);
             alert("Erro ao atualizar pet.");

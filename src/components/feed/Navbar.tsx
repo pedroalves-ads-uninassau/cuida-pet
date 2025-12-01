@@ -5,7 +5,6 @@ import { useState, useRef, useEffect } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 import { useOnClickOutside } from '@/utils/hooks';
 import { useApp } from '@/context/AppContext';
-import { motion, AnimatePresence } from 'framer-motion';
 import {
   MagnifyingGlassIcon,
   MapIcon,
@@ -22,7 +21,8 @@ import {
   XMarkIcon,
   ShieldCheckIcon,
   EnvelopeIcon,
-  BellIcon
+  BellIcon,
+  ChevronDownIcon
 } from '@heroicons/react/24/outline';
 import {
   HomeIcon as HomeIconSolid,
@@ -157,45 +157,40 @@ export function Navbar() {
                     )}
                   </button>
 
-                  <AnimatePresence>
-                    {isNotificationsOpen && (
-                      <motion.div
-                        initial={{ opacity: 0, y: 10, scale: 0.95 }}
-                        animate={{ opacity: 1, y: 0, scale: 1 }}
-                        exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                        className="absolute right-0 mt-4 w-80 origin-top-right rounded-2xl bg-white shadow-xl ring-1 ring-black ring-opacity-5 focus:outline-none overflow-hidden z-50"
-                      >
-                        <div className="px-4 py-3 border-b border-gray-50 flex justify-between items-center">
-                          <p className="text-sm font-bold text-gray-900">Notificações</p>
-                          {unreadCount > 0 && (
-                            <span className="text-[10px] font-bold bg-primary/10 text-primary px-2 py-0.5 rounded-full">
-                              {unreadCount} nova(s)
-                            </span>
-                          )}
-                        </div>
-                        <div className="max-h-[300px] overflow-y-auto">
-                          {notifications.length === 0 ? (
-                            <p className="p-4 text-center text-gray-500 text-xs">Nenhuma notificação.</p>
-                          ) : (
-                            notifications.map((notif) => (
-                              <div
-                                key={notif.id}
-                                onClick={() => handleMarkAsRead(notif.id)}
-                                className={`p-4 border-b border-gray-50 hover:bg-gray-50 transition cursor-pointer ${!notif.read ? 'bg-blue-50/50' : ''}`}
-                              >
-                                <p className={`text-sm ${!notif.read ? 'font-bold text-gray-900' : 'text-gray-600'}`}>
-                                  {notif.text}
-                                </p>
-                                <p className="text-[10px] text-gray-400 mt-1">
-                                  {notif.createdAt ? new Date(notif.createdAt.toDate()).toLocaleDateString('pt-BR', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' }) : 'Agora'}
-                                </p>
-                              </div>
-                            ))
-                          )}
-                        </div>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
+                  {isNotificationsOpen && (
+                    <div
+                      className="absolute right-0 mt-4 w-80 origin-top-right rounded-2xl bg-white shadow-xl ring-1 ring-black ring-opacity-5 focus:outline-none overflow-hidden z-50"
+                    >
+                      <div className="px-4 py-3 border-b border-gray-50 flex justify-between items-center">
+                        <p className="text-sm font-bold text-gray-900">Notificações</p>
+                        {unreadCount > 0 && (
+                          <span className="text-[10px] font-bold bg-primary/10 text-primary px-2 py-0.5 rounded-full">
+                            {unreadCount} nova(s)
+                          </span>
+                        )}
+                      </div>
+                      <div className="max-h-[300px] overflow-y-auto">
+                        {notifications.length === 0 ? (
+                          <p className="p-4 text-center text-gray-500 text-xs">Nenhuma notificação.</p>
+                        ) : (
+                          notifications.map((notif) => (
+                            <div
+                              key={notif.id}
+                              onClick={() => handleMarkAsRead(notif.id)}
+                              className={`p-4 border-b border-gray-50 hover:bg-gray-50 transition cursor-pointer ${!notif.read ? 'bg-blue-50/50' : ''}`}
+                            >
+                              <p className={`text-sm ${!notif.read ? 'font-bold text-gray-900' : 'text-gray-600'}`}>
+                                {notif.text}
+                              </p>
+                              <p className="text-[10px] text-gray-400 mt-1">
+                                {notif.createdAt ? new Date(notif.createdAt.toDate()).toLocaleDateString('pt-BR', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' }) : 'Agora'}
+                              </p>
+                            </div>
+                          ))
+                        )}
+                      </div>
+                    </div>
+                  )}
                 </div>
               )}
 
@@ -223,58 +218,53 @@ export function Navbar() {
                       />
                     </div>
                   </div>
+                  <ChevronDownIcon className={`h-4 w-4 text-gray-400 transition-transform duration-200 ${isProfileMenuOpen ? 'rotate-180' : ''}`} />
                 </button>
 
-                <AnimatePresence>
-                  {isProfileMenuOpen && (
-                    <motion.div
-                      initial={{ opacity: 0, y: 10, scale: 0.95 }}
-                      animate={{ opacity: 1, y: 0, scale: 1 }}
-                      exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                      transition={{ duration: 0.2 }}
-                      className="absolute right-0 mt-4 w-72 origin-top-right rounded-2xl bg-white shadow-xl ring-1 ring-black ring-opacity-5 focus:outline-none overflow-hidden z-50"
-                    >
-                      <div className="px-6 py-4 border-b border-gray-50 bg-gradient-to-r from-primary/5 to-transparent">
-                        <p className="text-sm font-bold text-gray-900 truncate">{user?.name || 'Bem-vindo'}</p>
-                        <p className="text-xs text-gray-500 truncate">{user?.email || 'Acesse sua conta'}</p>
-                      </div>
-                      <div className="p-2">
-                        {user ? (
-                          <>
-                            {profileMenuItems.map((item) => (
-                              <Link
-                                key={item.name}
-                                href={item.href}
-                                onClick={() => setIsProfileMenuOpen(false)}
-                                className="flex items-center gap-3 px-4 py-3 text-sm font-medium text-gray-700 rounded-xl hover:bg-gray-50 hover:text-primary transition-all"
-                              >
-                                <item.icon className="h-5 w-5" />
-                                {item.name}
-                              </Link>
-                            ))}
-                            <div className="h-px bg-gray-100 my-2 mx-4" />
-                            <button
-                              onClick={handleLogout}
-                              className="w-full text-left flex items-center gap-3 px-4 py-3 text-sm font-medium text-red-600 rounded-xl hover:bg-red-50 transition-all"
+                {isProfileMenuOpen && (
+                  <div
+                    className="absolute right-0 mt-4 w-72 origin-top-right rounded-2xl bg-white shadow-xl ring-1 ring-black ring-opacity-5 focus:outline-none overflow-hidden z-50"
+                  >
+                    <div className="px-6 py-4 border-b border-gray-50 bg-gradient-to-r from-primary/5 to-transparent">
+                      <p className="text-sm font-bold text-gray-900 truncate">{user?.name || 'Bem-vindo'}</p>
+                      <p className="text-xs text-gray-500 truncate">{user?.email || 'Acesse sua conta'}</p>
+                    </div>
+                    <div className="p-2">
+                      {user ? (
+                        <>
+                          {profileMenuItems.map((item) => (
+                            <Link
+                              key={item.name}
+                              href={item.href}
+                              onClick={() => setIsProfileMenuOpen(false)}
+                              className="flex items-center gap-3 px-4 py-3 text-sm font-medium text-gray-700 rounded-xl hover:bg-gray-50 hover:text-primary transition-all"
                             >
-                              <ArrowRightOnRectangleIcon className="h-5 w-5" />
-                              Sair
-                            </button>
-                          </>
-                        ) : (
-                          <Link
-                            href="/login"
-                            onClick={() => setIsProfileMenuOpen(false)}
-                            className="flex items-center gap-3 px-4 py-3 text-sm font-medium text-primary rounded-xl hover:bg-primary/5 transition-all"
+                              <item.icon className="h-5 w-5" />
+                              {item.name}
+                            </Link>
+                          ))}
+                          <div className="h-px bg-gray-100 my-2 mx-4" />
+                          <button
+                            onClick={handleLogout}
+                            className="w-full text-left flex items-center gap-3 px-4 py-3 text-sm font-medium text-red-600 rounded-xl hover:bg-red-50 transition-all"
                           >
                             <ArrowRightOnRectangleIcon className="h-5 w-5" />
-                            Fazer Login
-                          </Link>
-                        )}
-                      </div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
+                            Sair
+                          </button>
+                        </>
+                      ) : (
+                        <Link
+                          href="/login"
+                          onClick={() => setIsProfileMenuOpen(false)}
+                          className="flex items-center gap-3 px-4 py-3 text-sm font-medium text-primary rounded-xl hover:bg-primary/5 transition-all"
+                        >
+                          <ArrowRightOnRectangleIcon className="h-5 w-5" />
+                          Fazer Login
+                        </Link>
+                      )}
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
           </div>
@@ -282,7 +272,7 @@ export function Navbar() {
       </header>
 
       {/* Spacer for fixed header */}
-      <div className="h-20 hidden md:block" />
+      <div className="h-16 md:h-20" />
 
       {/* Mobile Bottom Nav */}
       <nav className="fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-lg border-t border-gray-200 pb-safe z-50 md:hidden shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)]">
@@ -297,8 +287,7 @@ export function Navbar() {
                 className={`relative flex flex-col items-center justify-center w-full h-full space-y-1 transition-colors ${isActive ? 'text-primary' : 'text-gray-400'}`}
               >
                 {isActive && (
-                  <motion.div
-                    layoutId="mobile-nav-indicator"
+                  <div
                     className="absolute top-0 w-12 h-1 bg-primary rounded-b-xl shadow-[0_0_10px_rgba(255,163,51,0.5)]"
                   />
                 )}

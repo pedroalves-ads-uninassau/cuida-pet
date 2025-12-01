@@ -1,6 +1,6 @@
 export const fadeIn = (direction: string, delay: number) => ({
-  initial: { opacity: 0, y: direction === "up" ? 40 : -40 },
+  initial: { opacity: 1, y: 0 },
   whileInView: { opacity: 1, y: 0 },
-  transition: { duration: 0.8, delay, ease: "easeOut" },
-  viewport: { once: true, amount: 0.3 },
+  transition: { duration: 0, delay: 0 },
+  viewport: { once: true },
 });

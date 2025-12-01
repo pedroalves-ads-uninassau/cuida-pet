@@ -1,51 +1,120 @@
 "use client";
 import { useApp } from '@/context/AppContext';
 import Link from 'next/link';
-import { CalendarIcon, MapPinIcon, ClockIcon } from '@heroicons/react/24/outline';
+import { CalendarIcon, MapPinIcon, ClockIcon, ArchiveBoxIcon } from '@heroicons/react/24/outline';
 
 export default function AgendamentosPage() {
   const { appointments, user, cancelAppointment, updateAppointmentStatus } = useApp();
 
   const isClinic = user?.role === 'clinic';
 
-  const getMonthName = (dateString: string) => {
-    try {
-      const date = new Date(dateString);
-      return date.toLocaleDateString('pt-BR', { month: 'short' }).toUpperCase().replace('.', '');
-    } catch {
-      return 'MÊS';
-    }
-  };
-
-  const getDay = (dateString: string) => {
-    try {
-      const date = new Date(dateString);
-      return date.getDate(); // Note: This might be off due to timezone if string is YYYY-MM-DD. 
-      // Better to split string if it's YYYY-MM-DD
-    } catch {
-      return '00';
-    }
-  };
-
-  // Helper to parse YYYY-MM-DD correctly without timezone issues
+  // Helper to parse YYYY-MM-DD correctly
   const parseDate = (dateString: string) => {
     const parts = dateString.split('-');
     if (parts.length === 3) {
       const year = parseInt(parts[0]);
       const month = parseInt(parts[1]) - 1;
       const day = parseInt(parts[2]);
-      const date = new Date(year, month, day);
-      return {
-        day: day,
-        month: date.toLocaleDateString('pt-BR', { month: 'short' }).toUpperCase().replace('.', '')
-      };
+      return new Date(year, month, day);
     }
-    return { day: '??', month: '???' };
+    return new Date();
+  };
+
+  const getDisplayDate = (dateString: string) => {
+    const date = parseDate(dateString);
+    return {
+      day: date.getDate(),
+      month: date.toLocaleDateString('pt-BR', { month: 'short' }).toUpperCase().replace('.', '')
+    };
+  };
+
+  // Split and Sort Appointments
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  const upcoming = appointments.filter(a => {
+    const date = parseDate(a.date);
+    return date >= today && a.status !== 'Cancelado';
+  }).sort((a, b) => parseDate(a.date).getTime() - parseDate(b.date).getTime());
+
+  const history = appointments.filter(a => {
+    const date = parseDate(a.date);
+    return date < today || a.status === 'Cancelado';
+  }).sort((a, b) => parseDate(b.date).getTime() - parseDate(a.date).getTime());
+
+  const AppointmentCard = ({ appt, isHistory = false }: { appt: any, isHistory?: boolean }) => {
+    const dateInfo = getDisplayDate(appt.date);
+    return (
+      <div className={`group bg-white rounded-2xl p-5 shadow-sm border border-gray-100 hover:shadow-md transition-all flex flex-col sm:flex-row gap-5 ${isHistory ? 'opacity-75 grayscale-[0.5] hover:grayscale-0 hover:opacity-100' : ''}`}>
+        {/* Date Box */}
+        <div className={`flex-shrink-0 flex flex-col items-center justify-center rounded-xl w-full sm:w-20 h-20 border transition-colors ${isHistory ? 'bg-gray-100 border-gray-200' : 'bg-gray-50 border-gray-100 group-hover:border-primary/30 group-hover:bg-primary/5'}`}>
+          <span className={`text-2xl font-black ${isHistory ? 'text-gray-500' : 'text-gray-800 group-hover:text-primary'}`}>{dateInfo.day}</span>
+          <span className={`text-[10px] font-bold uppercase tracking-wider ${isHistory ? 'text-gray-400' : 'text-gray-400 group-hover:text-primary/70'}`}>{dateInfo.month}</span>
+        </div>
+
+        {/* Details */}
+        <div className="flex-grow">
+          <div className="flex justify-between items-start mb-2">
+            <div>
+              <h3 className="text-lg font-bold text-gray-900 leading-tight">{appt.service}</h3>
+              <p className="text-gray-500 text-sm font-medium mt-0.5">
+                {isClinic ? `Tutor: ${appt.ownerName || 'Tutor'} (Pet: ${appt.petName})` : appt.clinicName}
+              </p>
+            </div>
+            <span className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wide border ${appt.status === 'Confirmado' ? 'bg-green-50 text-green-700 border-green-200' :
+              appt.status === 'Pendente' ? 'bg-yellow-50 text-yellow-700 border-yellow-200' :
+                'bg-red-50 text-red-700 border-red-200'
+              }`}>
+              {appt.status}
+            </span>
+          </div>
+
+          <div className="grid grid-cols-2 gap-y-2 gap-x-4 text-sm text-gray-500 mt-4">
+            <div className="flex items-center gap-2">
+              <ClockIcon className="h-4 w-4 text-gray-400" />
+              <span>{appt.time}</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <span className="font-bold text-gray-400 text-xs uppercase">Pet:</span>
+              <span className="text-gray-700 font-medium">{appt.petName}</span>
+            </div>
+            {!isClinic && (
+              <div className="col-span-2 flex items-center gap-2 mt-1">
+                <MapPinIcon className="h-4 w-4 text-gray-400" />
+                <span className="truncate">{appt.address}</span>
+              </div>
+            )}
+          </div>
+
+          {!isHistory && appt.status !== 'Cancelado' && (
+            <div className="mt-4 pt-4 border-t border-gray-50 flex justify-end gap-3">
+              <button
+                onClick={() => {
+                  if (confirm('Tem certeza que deseja cancelar?')) cancelAppointment(appt.id);
+                }}
+                className="text-xs font-bold text-red-500 hover:text-red-700 hover:bg-red-50 px-3 py-1.5 rounded-lg transition"
+              >
+                Cancelar
+              </button>
+
+              {isClinic && appt.status === 'Pendente' && (
+                <button
+                  onClick={() => updateAppointmentStatus(appt.id, 'Confirmado', appt.ownerId)}
+                  className="text-xs font-bold text-green-600 hover:text-green-800 hover:bg-green-50 px-3 py-1.5 rounded-lg transition"
+                >
+                  Confirmar
+                </button>
+              )}
+            </div>
+          )}
+        </div>
+      </div>
+    );
   };
 
   return (
-    <div className="max-w-3xl mx-auto pb-20">
-      <div className="flex items-center justify-between mb-8">
+    <div className="max-w-3xl mx-auto pb-20 px-4">
+      <div className="flex items-center justify-between mb-8 mt-4">
         <div>
           <h1 className="text-3xl font-baloo font-bold text-gray-900">
             {isClinic ? 'Agenda da Clínica' : 'Meus Agendamentos'}
@@ -64,7 +133,7 @@ export default function AgendamentosPage() {
         )}
       </div>
 
-      {appointments.length === 0 ? (
+      {upcoming.length === 0 && history.length === 0 ? (
         <div className="bg-white rounded-3xl p-12 text-center border border-gray-100 shadow-xl flex flex-col items-center">
           <div className="w-20 h-20 bg-primary/10 rounded-full flex items-center justify-center mb-6">
             <CalendarIcon className="h-10 w-10 text-primary" />
@@ -83,77 +152,36 @@ export default function AgendamentosPage() {
           )}
         </div>
       ) : (
-        <div className="space-y-4">
-          {appointments.map((appt) => {
-            const dateInfo = parseDate(appt.date);
-            return (
-              <div key={appt.id} className="group bg-white rounded-2xl p-5 shadow-sm border border-gray-100 hover:shadow-md transition-all flex flex-col sm:flex-row gap-5">
-                {/* Date Box */}
-                <div className="flex-shrink-0 flex flex-col items-center justify-center bg-gray-50 rounded-xl w-full sm:w-20 h-20 border border-gray-100 group-hover:border-primary/30 group-hover:bg-primary/5 transition-colors">
-                  <span className="text-2xl font-black text-gray-800 group-hover:text-primary">{dateInfo.day}</span>
-                  <span className="text-[10px] font-bold uppercase text-gray-400 tracking-wider group-hover:text-primary/70">{dateInfo.month}</span>
-                </div>
-
-                {/* Details */}
-                <div className="flex-grow">
-                  <div className="flex justify-between items-start mb-2">
-                    <div>
-                      <h3 className="text-lg font-bold text-gray-900 leading-tight">{appt.service}</h3>
-                      <p className="text-gray-500 text-sm font-medium mt-0.5">
-                        {isClinic ? `Tutor: ${appt.ownerName || 'Tutor'} (Pet: ${appt.petName})` : appt.clinicName}
-                      </p>
-                    </div>
-                    <span className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wide border ${appt.status === 'Confirmado' ? 'bg-green-50 text-green-700 border-green-200' :
-                      appt.status === 'Pendente' ? 'bg-yellow-50 text-yellow-700 border-yellow-200' :
-                        'bg-red-50 text-red-700 border-red-200'
-                      }`}>
-                      {appt.status}
-                    </span>
-                  </div>
-
-                  <div className="grid grid-cols-2 gap-y-2 gap-x-4 text-sm text-gray-500 mt-4">
-                    <div className="flex items-center gap-2">
-                      <ClockIcon className="h-4 w-4 text-gray-400" />
-                      <span>{appt.time}</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <span className="font-bold text-gray-400 text-xs uppercase">Pet:</span>
-                      <span className="text-gray-700 font-medium">{appt.petName}</span>
-                    </div>
-                    {!isClinic && (
-                      <div className="col-span-2 flex items-center gap-2 mt-1">
-                        <MapPinIcon className="h-4 w-4 text-gray-400" />
-                        <span className="truncate">{appt.address}</span>
-                      </div>
-                    )}
-                  </div>
-
-                  {appt.status !== 'Cancelado' && (
-                    <div className="mt-4 pt-4 border-t border-gray-50 flex justify-end gap-3">
-                      <button
-                        onClick={() => {
-                          if (confirm('Tem certeza que deseja cancelar?')) cancelAppointment(appt.id);
-                        }}
-                        className="text-xs font-bold text-red-500 hover:text-red-700 hover:bg-red-50 px-3 py-1.5 rounded-lg transition"
-                      >
-                        Cancelar
-                      </button>
-
-                      {isClinic && appt.status === 'Pendente' && (
-                        <button
-                          onClick={() => updateAppointmentStatus(appt.id, 'Confirmado', appt.ownerId)}
-                          className="text-xs font-bold text-green-600 hover:text-green-800 hover:bg-green-50 px-3 py-1.5 rounded-lg transition"
-                        >
-                          Confirmar
-                        </button>
-                      )}
-
-                    </div>
-                  )}
-                </div>
+        <div className="space-y-8">
+          {/* Upcoming Section */}
+          <section>
+            <h2 className="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
+              <CalendarIcon className="h-5 w-5 text-primary" />
+              Próximos
+            </h2>
+            {upcoming.length > 0 ? (
+              <div className="space-y-4">
+                {upcoming.map(appt => <AppointmentCard key={appt.id} appt={appt} />)}
               </div>
-            );
-          })}
+            ) : (
+              <p className="text-gray-500 text-sm italic bg-gray-50 p-4 rounded-xl text-center">
+                Nenhum agendamento futuro.
+              </p>
+            )}
+          </section>
+
+          {/* History Section */}
+          {history.length > 0 && (
+            <section className="pt-8 border-t border-gray-100">
+              <h2 className="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2 opacity-75">
+                <ArchiveBoxIcon className="h-5 w-5 text-gray-400" />
+                Histórico
+              </h2>
+              <div className="space-y-4">
+                {history.map(appt => <AppointmentCard key={appt.id} appt={appt} isHistory={true} />)}
+              </div>
+            </section>
+          )}
         </div>
       )}
     </div>

@@ -8,7 +8,7 @@ export default function MainAppLayout({
   return (
     <div className="min-h-screen bg-primary-light/20">
       <Navbar />
-      <main>{children}</main>
+      <main className="pb-24 md:pb-0">{children}</main>
     </div>
   );
 }

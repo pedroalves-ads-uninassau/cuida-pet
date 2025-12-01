@@ -121,9 +121,8 @@ export default function PublicProfilePage() {
         <div className="max-w-4xl mx-auto pb-20 px-4 sm:px-6 lg:px-8 py-8">
             {/* Header Card */}
             <div className="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden mb-8">
-                <div className="h-32 bg-gradient-to-r from-primary/20 to-primary/5"></div>
-                <div className="px-8 pb-8">
-                    <div className="relative flex justify-between items-end -mt-12 mb-6">
+                <div className="p-8">
+                    <div className="relative flex justify-between items-center mb-6">
                         <div className="relative w-24 h-24 rounded-full border-4 border-white shadow-md bg-white">
                             <Image
                                 src={profile.avatar}
