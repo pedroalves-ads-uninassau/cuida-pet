@@ -7,7 +7,7 @@ export const metadata = {
   title: "Cuida Pet - Conectando Pessoas e Pets com Amor e Tecnologia",
   description: "Cuida Pet é a plataforma perfeita para cuidar, agendar e se conectar com quem também ama os animais.",
   icons: {
-    icon: '/favicon.ico',
+    icon: '/icon.png',
   },
 };
 
