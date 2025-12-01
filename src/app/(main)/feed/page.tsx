@@ -19,31 +19,28 @@ export default function FeedPage() {
   const handleImageSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
+      // Convert to Base64
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        const base64String = reader.result as string;
+        setPreviewUrl(base64String);
+        // We store the base64 string directly in the state to send it later
+      };
+      reader.readAsDataURL(file);
       setSelectedImage(file);
-      setPreviewUrl(URL.createObjectURL(file));
     }
   };
 
   const handlePostSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!newPostContent.trim() && !selectedImage) return;
+    if (!newPostContent.trim() && !previewUrl) return;
 
     setIsUploading(true);
-    let imageUrl = "";
 
     try {
-      if (selectedImage) {
-        if (storage) {
-          // Real Firebase Upload
-          const storageRef = ref(storage, `posts/${Date.now()}_${selectedImage.name}`);
-          await uploadBytes(storageRef, selectedImage);
-          imageUrl = await getDownloadURL(storageRef);
-        } else {
-          // Mock Upload (just use the local preview URL for the session)
-          // Note: This URL will expire if the page is refreshed, but it's good for mock demo
-          imageUrl = previewUrl || "";
-        }
-      }
+      // Use the Base64 string directly (previewUrl) as the imageUrl
+      // This bypasses Firebase Storage completely
+      const imageUrl = previewUrl || undefined;
 
       await addPost(newPostContent, imageUrl);
 
