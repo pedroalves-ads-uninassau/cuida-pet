@@ -15,6 +15,8 @@ export default function EditarPerfilPage() {
     const [phone, setPhone] = useState("");
     const [cnpj, setCnpj] = useState("");
 
+    const [avatarPreview, setAvatarPreview] = useState<string | null>(null);
+
     useEffect(() => {
         if (user) {
             setName(user.name);
@@ -22,10 +24,22 @@ export default function EditarPerfilPage() {
             setAddress(user.address || "");
             setPhone(user.phone || "");
             setCnpj(user.cnpj || "");
+            setAvatarPreview(user.avatar);
         } else {
             router.push('/login');
         }
     }, [user, router]);
+
+    const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setAvatarPreview(reader.result as string);
+            };
+            reader.readAsDataURL(file);
+        }
+    };
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -34,18 +48,30 @@ export default function EditarPerfilPage() {
 
         try {
             const { doc, updateDoc } = await import("firebase/firestore");
-            const { db } = await import("@/services/firebase");
+            const { updateProfile } = await import("firebase/auth");
+            const { auth, db } = await import("@/services/firebase");
 
-            if (db) {
+            if (db && auth && auth.currentUser) {
+                // Update Firestore
                 await updateDoc(doc(db, "users", user.uid), {
                     name,
                     email,
                     address,
                     phone,
-                    cnpj
+                    cnpj,
+                    // If avatarPreview changed (is base64), save it. Otherwise keep existing.
+                    avatar: avatarPreview
                 });
+
+                // Update Auth Profile (DisplayName and PhotoURL)
+                await updateProfile(auth.currentUser, {
+                    displayName: name,
+                    photoURL: avatarPreview
+                });
+
                 alert("Perfil atualizado com sucesso!");
-                router.push('/perfil/tutor');
+                // Force reload to update context
+                window.location.href = '/perfil/tutor';
             }
         } catch (error) {
             console.error("Error updating profile:", error);
@@ -65,8 +91,8 @@ export default function EditarPerfilPage() {
                     <div className="flex flex-col items-center mb-6">
                         <div className="relative w-32 h-32 mb-4">
                             <Image
-                                src={user.avatar}
-                                alt={user.name}
+                                src={avatarPreview || user.avatar}
+                                alt={name}
                                 fill
                                 className="rounded-full object-cover border-4 border-gray-100"
                             />
@@ -75,7 +101,13 @@ export default function EditarPerfilPage() {
                                 className="absolute bottom-0 right-0 bg-primary text-white p-2 rounded-full cursor-pointer hover:bg-primary-dark transition shadow-md"
                             >
                                 <PhotoIcon className="h-5 w-5" />
-                                <input id="photo-upload" type="file" className="hidden" />
+                                <input
+                                    id="photo-upload"
+                                    type="file"
+                                    className="hidden"
+                                    accept="image/*"
+                                    onChange={handleAvatarChange}
+                                />
                             </label>
                         </div>
                         <p className="text-sm text-gray-500">Clique no ícone para alterar a foto</p>
