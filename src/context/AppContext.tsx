@@ -53,6 +53,7 @@ type Appointment = {
     address: string;
     service: string;
     ownerId: string;
+    ownerName?: string;
 };
 
 type Notification = {
