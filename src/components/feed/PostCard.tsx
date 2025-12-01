@@ -26,6 +26,7 @@ type Post = {
   imageUrl?: string;
   likes: number;
   comments: number;
+  createdAt?: any;
 };
 
 export function PostCard({ post }: { post: Post }) {
