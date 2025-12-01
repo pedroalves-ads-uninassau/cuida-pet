@@ -1,44 +1,46 @@
+"use client";
 import Image from 'next/image';
-import Link from 'next/link';
-import { ArrowLeftIcon } from '@heroicons/react/24/outline';
 
-export default function SobrePage() {
+export default function AboutPage() {
   return (
-    <div className="py-8 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-3xl mx-auto bg-neutral-white rounded-2xl shadow-2xl p-8">
-        <div className="flex flex-col items-center mb-8">
-          <Image
-            src="/images/logo-cuida-pet.png"
-            alt="Cuida Pet Logo"
-            width={100}
-            height={100}
-            className="rounded-full mb-4"
-          />
-          <h1 className="text-4xl font-bold text-neutral-black text-center">
-            Sobre o Cuida Pet
-          </h1>
+    <div className="max-w-3xl mx-auto pb-20">
+      <div className="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
+        <div className="relative h-48 bg-primary">
+          <div className="absolute inset-0 flex items-center justify-center">
+            <div className="relative w-32 h-32 bg-white rounded-full p-2 shadow-lg">
+              <Image
+                src="/images/logo-cuida-pet.png"
+                alt="Cuida Pet Logo"
+                fill
+                className="rounded-full object-cover"
+              />
+            </div>
+          </div>
         </div>
 
-        <div className="prose prose-lg max-w-none text-neutral-gray-dark">
-          <p>
-            O <strong>Cuida Pet</strong> é um aplicativo mobile (e agora uma aplicação web!) desenvolvido com o objetivo de aproximar tutores de animais e clínicas veterinárias, promovendo o bem-estar e o cuidado dos pets por meio da tecnologia.
-          </p>
-          <p>
-            Nossa plataforma oferece recursos de agendamento de consultas, interação entre usuários e compartilhamento de experiências, em um ambiente moderno e intuitivo inspirado em redes sociais.
-          </p>
-          <p>
-            Com o Cuida Pet, buscamos unir amor, praticidade e inovação, criando uma comunidade digital voltada ao cuidado e à saúde animal.
-          </p>
-          <h2 className="text-2xl font-bold text-neutral-black mt-8">Nossa Missão</h2>
-          <p>
-            Nossa missão é criar uma comunidade onde tutores, veterinários e amantes de pets possam se conectar, compartilhar e cuidar dos seus companheiros com a ajuda da tecnologia, tornando o acesso a serviços veterinários mais simples e eficiente.
-          </p>
-        </div>
-        <div className="text-center mt-8">
-          <Link href="/feed" className="text-primary hover:text-primary-dark inline-flex items-center gap-1 font-bold">
-            <ArrowLeftIcon className="w-4 h-4" />
-            Voltar para o Feed
-          </Link>
+        <div className="px-8 py-10 text-center">
+          <h1 className="text-3xl font-baloo font-bold text-gray-900 mb-4">Sobre o Cuida Pet</h1>
+
+          <div className="prose prose-lg mx-auto text-gray-600">
+            <p className="mb-6">
+              Olá! Nós somos um grupo de estudantes apaixonados por tecnologia e, claro, por animais! 🐾
+            </p>
+            <p className="mb-6">
+              O <strong>Cuida Pet</strong> nasceu de um trabalho da faculdade. Nosso objetivo era simples: criar algo que facilitasse a vida de quem ama seus bichinhos, conectando tutores a clínicas veterinárias de um jeito fácil e moderno.
+            </p>
+            <p>
+              Ainda estamos aprendendo e melhorando o aplicativo a cada dia. Esperamos que você goste e que o Cuida Pet ajude você a cuidar ainda melhor do seu melhor amigo!
+            </p>
+          </div>
+
+          <div className="mt-12 pt-8 border-t border-gray-100">
+            <p className="text-sm text-gray-400">
+              Feito com ❤️ (e muito café ☕) por estudantes.
+            </p>
+            <p className="text-xs text-gray-300 mt-2">
+              Versão 1.0.0 (Beta)
+            </p>
+          </div>
         </div>
       </div>
     </div>

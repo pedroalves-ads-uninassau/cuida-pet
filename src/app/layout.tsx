@@ -8,10 +8,22 @@ export const metadata = {
   description: "Cuida Pet é a plataforma perfeita para cuidar, agendar e se conectar com quem também ama os animais.",
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+import { AppProvider } from "@/context/AppContext";
+
+
+
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
   return (
     <html lang="pt-BR">
-      <body className={baloo.className}>{children}</body>
+      <body className={`${baloo.className} bg-gray-50 flex flex-col min-h-screen`}>
+        <AppProvider>
+          {children}
+        </AppProvider>
+      </body>
     </html>
   );
 }

@@ -1,75 +1,82 @@
 "use client";
-import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import {
-  KeyIcon,
-  EnvelopeIcon,
-  UserIcon,
+  UserCircleIcon,
   ArrowRightOnRectangleIcon,
   TrashIcon,
+  ChevronRightIcon
 } from '@heroicons/react/24/outline';
+import { useApp } from '@/context/AppContext';
+import { useRouter } from 'next/navigation';
 
-export default function ConfiguracoesPage() {
+export default function SettingsPage() {
+  const { user, logout } = useApp();
   const router = useRouter();
 
-  const handleLogout = () => {
-    // In a real app, you'd clear the user's session here
+  const handleLogout = async () => {
+    await logout();
     router.push('/login');
   };
 
-  const settingsOptions = [
-    { name: 'Alterar Nome de Usuário', icon: UserIcon, action: () => {} },
-    { name: 'Alterar E-mail', icon: EnvelopeIcon, action: () => {} },
-    { name: 'Alterar Senha', icon: KeyIcon, action: () => {} },
-  ];
-
   return (
-    <div className="py-8 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-2xl mx-auto">
-        <h1 className="text-3xl font-bold text-neutral-black mb-6">Configurações</h1>
-        <div className="bg-neutral-white rounded-2xl shadow-lg overflow-hidden">
-          <ul className="divide-y divide-neutral-gray-light">
-            {settingsOptions.map((option) => (
-              <li key={option.name}>
-                <button
-                  onClick={option.action}
-                  className="w-full flex items-center justify-between p-4 text-left hover:bg-primary-light/20 transition"
-                >
-                  <div className="flex items-center gap-4">
-                    <option.icon className="h-6 w-6 text-neutral-gray-dark" />
-                    <span className="text-neutral-black font-medium">{option.name}</span>
-                  </div>
-                </button>
-              </li>
-            ))}
-          </ul>
-        </div>
+    <div className="max-w-3xl mx-auto pb-20">
+      <h1 className="text-2xl font-bold text-gray-900 mb-6">Configurações</h1>
 
-        <div className="mt-8 bg-neutral-white rounded-2xl shadow-lg overflow-hidden">
-          <ul className="divide-y divide-neutral-gray-light">
-            <li>
-              <button
-                onClick={handleLogout}
-                className="w-full flex items-center justify-between p-4 text-left hover:bg-primary-light/20 transition"
-              >
-                <div className="flex items-center gap-4">
-                  <ArrowRightOnRectangleIcon className="h-6 w-6 text-support-blue" />
-                  <span className="text-support-blue font-medium">Sair da Conta</span>
+      <div className="space-y-6">
+        {/* Conta */}
+        <section className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+          <div className="px-6 py-4 border-b border-gray-50 bg-gray-50/50">
+            <h2 className="text-sm font-bold text-gray-500 uppercase tracking-wider">Conta</h2>
+          </div>
+          <div className="divide-y divide-gray-50">
+            <Link href="/perfil/editar" className="flex items-center justify-between px-6 py-4 hover:bg-gray-50 transition">
+              <div className="flex items-center gap-3">
+                <div className="bg-blue-50 p-2 rounded-lg text-blue-600">
+                  <UserCircleIcon className="h-6 w-6" />
                 </div>
-              </button>
-            </li>
-            <li>
-              <button
-                onClick={() => { alert('Esta ação é permanente e não pode ser desfeita.'); }}
-                className="w-full flex items-center justify-between p-4 text-left hover:bg-red-50 transition"
-              >
-                <div className="flex items-center gap-4">
-                  <TrashIcon className="h-6 w-6 text-support-red" />
-                  <span className="text-support-red font-medium">Excluir Conta</span>
+                <div>
+                  <p className="font-medium text-gray-900">Editar Perfil</p>
+                  <p className="text-sm text-gray-500">Alterar nome, foto e informações</p>
                 </div>
-              </button>
-            </li>
-          </ul>
-        </div>
+              </div>
+              <ChevronRightIcon className="h-5 w-5 text-gray-400" />
+            </Link>
+          </div>
+        </section>
+
+        {/* Ações da Conta */}
+        <section className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+          <div className="px-6 py-4 border-b border-gray-50 bg-gray-50/50">
+            <h2 className="text-sm font-bold text-gray-500 uppercase tracking-wider text-red-600">Zona de Perigo</h2>
+          </div>
+          <div className="divide-y divide-gray-50">
+            <button
+              onClick={handleLogout}
+              className="w-full flex items-center gap-3 px-6 py-4 hover:bg-red-50 transition text-left group"
+            >
+              <div className="bg-red-50 p-2 rounded-lg text-red-600 group-hover:bg-white">
+                <ArrowRightOnRectangleIcon className="h-6 w-6" />
+              </div>
+              <div>
+                <p className="font-medium text-red-600">Sair da Conta</p>
+                <p className="text-sm text-gray-500">Encerrar sua sessão atual</p>
+              </div>
+            </button>
+
+            <button
+              onClick={() => alert("Para excluir sua conta, entre em contato com o suporte: suporte@cuidapet.com")}
+              className="w-full flex items-center gap-3 px-6 py-4 bg-red-50 hover:bg-red-100 transition text-left group border-t border-red-100"
+            >
+              <div className="bg-white p-2 rounded-lg text-red-600 border border-red-200 shadow-sm">
+                <TrashIcon className="h-6 w-6" />
+              </div>
+              <div>
+                <p className="font-black text-red-600 uppercase tracking-wide text-lg">Excluir Conta</p>
+                <p className="text-xs font-bold text-red-500">Ação irreversível. Cuidado.</p>
+              </div>
+            </button>
+          </div>
+        </section>
       </div>
     </div>
   );
